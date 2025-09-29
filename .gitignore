@@ -1,0 +1,8 @@
+# Ignore gem files
+*.gem
+
+# Ignore tmp directory
+/tmp/
+
+# Ignore log files
+/log
