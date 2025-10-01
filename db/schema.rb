@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 20_250_929_060_701) do
+ActiveRecord::Schema[8.0].define(version: 20_250_929_082_535) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'pg_catalog.plpgsql'
 
@@ -19,5 +19,16 @@ ActiveRecord::Schema[8.0].define(version: 20_250_929_060_701) do
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
     t.index ['id'], name: 'index_users_on_id', unique: true
+  end
+
+  create_table 'users_follows', force: :cascade do |t|
+    t.bigint 'follower_id', null: false
+    t.bigint 'followed_user_id', null: false
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['followed_user_id'], name: 'index_users_follows_on_followed_user_id'
+    t.index %w[follower_id followed_user_id], name: 'index_users_follows_on_follower_id_and_followed_user_id',
+                                              unique: true
+    t.index ['follower_id'], name: 'index_users_follows_on_follower_id'
   end
 end
