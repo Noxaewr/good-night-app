@@ -9,6 +9,15 @@ gem 'puma', '>= 5.0'
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
 
+# JSON API serializer for consistent API responses
+gem 'jsonapi-serializer'
+
+# Pagination for API responses
+gem 'kaminari'
+
+# Validation contracts
+gem 'dry-validation'
+
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
 
@@ -44,4 +53,26 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem 'rubocop-rails-omakase', require: false
+
+  # Testing framework
+  gem 'factory_bot_rails'
+  gem 'faker'
+  gem 'rspec-rails'
+
+  # API documentation and testing
+  gem 'rswag-specs'
+end
+
+group :development do
+  # Swagger UI and API for serving generated docs
+  gem 'rswag-ui'
+  gem 'rswag-api'
+end
+
+group :test do
+  # Test helpers and matchers
+  gem 'database_cleaner-active_record'
+  gem 'shoulda-matchers'
+  gem 'simplecov', require: false
+  gem 'simplecov_lcov_formatter', require: false
 end
