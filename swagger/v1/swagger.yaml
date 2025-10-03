@@ -1,0 +1,302 @@
+---
+openapi: 3.0.1
+info:
+  title: Good Night App API V1
+  version: v1
+  description: API for tracking sleep records and following users
+  contact:
+    name: API Support
+    email: support@goodnightapp.com
+paths:
+  "/v1/users/{user_id}/sleep_records":
+    get:
+      summary: List user sleep records
+      tags:
+      - Sleep Records
+      parameters:
+      - name: user_id
+        in: path
+        description: User ID
+        required: true
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Page number
+        required: false
+        schema:
+          type: integer
+      - name: per_page
+        in: query
+        description: Items per page
+        required: false
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: successful
+        '404':
+          description: user not found
+    post:
+      summary: Create sleep record
+      tags:
+      - Sleep Records
+      parameters:
+      - name: user_id
+        in: path
+        description: User ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '201':
+          description: sleep record created
+        '422':
+          description: validation failed
+        '404':
+          description: user not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                sleep_record:
+                  type: object
+                  properties:
+                    bedtime:
+                      type: string
+                      format: date-time
+                      example: '2023-10-01T22:00:00Z'
+                    wake_time:
+                      type: string
+                      format: date-time
+                      example: '2023-10-02T06:00:00Z'
+                  required:
+                  - bedtime
+                  - wake_time
+              required:
+              - sleep_record
+  "/v1/users/{user_id}/following_sleep_records":
+    get:
+      summary: List following users sleep records
+      tags:
+      - Sleep Records
+      parameters:
+      - name: user_id
+        in: path
+        description: User ID
+        required: true
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Page number
+        required: false
+        schema:
+          type: integer
+      - name: per_page
+        in: query
+        description: Items per page
+        required: false
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: successful
+        '404':
+          description: user not found
+  "/v1/users":
+    get:
+      summary: List all users
+      tags:
+      - Users
+      description: Retrieve a paginated list of all users
+      parameters:
+      - name: page
+        in: query
+        description: Page number
+        required: false
+        schema:
+          type: integer
+      - name: per_page
+        in: query
+        description: Items per page (max 100)
+        required: false
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: Create a new user
+      tags:
+      - Users
+      description: Create a new user account
+      parameters: []
+      responses:
+        '201':
+          description: user created
+        '422':
+          description: validation failed
+        '400':
+          description: bad request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      example: John Doe
+                  required:
+                  - name
+              required:
+              - user
+  "/v1/users/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: User ID
+      required: true
+      schema:
+        type: string
+    get:
+      summary: Show user details
+      tags:
+      - Users
+      description: Get details for a specific user
+      responses:
+        '200':
+          description: successful
+        '404':
+          description: user not found
+  "/v1/users/{id}/follow":
+    parameters:
+    - name: id
+      in: path
+      description: User ID
+      required: true
+      schema:
+        type: string
+    post:
+      summary: Follow a user
+      tags:
+      - Users
+      description: Follow another user
+      parameters: []
+      responses:
+        '201':
+          description: successfully followed
+        '422':
+          description: cannot follow
+        '404':
+          description: user not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                target_user_id:
+                  type: string
+                  format: uuid
+                  example: 123e4567-e89b-12d3-a456-426614174000
+              required:
+              - target_user_id
+  "/v1/users/{id}/unfollow":
+    delete:
+      summary: Unfollow a user
+      tags:
+      - Users
+      description: Unfollow a previously followed user
+      parameters:
+      - name: id
+        in: path
+        description: User ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successfully unfollowed
+        '422':
+          description: not following user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                target_user_id:
+                  type: string
+                  format: uuid
+                  example: 123e4567-e89b-12d3-a456-426614174000
+              required:
+              - target_user_id
+  "/v1/users/{id}/following":
+    get:
+      summary: List users being followed
+      tags:
+      - Users
+      description: Get paginated list of users that this user follows
+      parameters:
+      - name: id
+        in: path
+        description: User ID
+        required: true
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Page number
+        required: false
+        schema:
+          type: integer
+      - name: per_page
+        in: query
+        description: Items per page
+        required: false
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: successful
+  "/v1/users/{id}/followers":
+    get:
+      summary: List followers
+      tags:
+      - Users
+      description: Get paginated list of users that follow this user
+      parameters:
+      - name: id
+        in: path
+        description: User ID
+        required: true
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Page number
+        required: false
+        schema:
+          type: integer
+      - name: per_page
+        in: query
+        description: Items per page
+        required: false
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: successful
+servers:
+- url: http://localhost:3000
+  description: Development server
+- url: https://api.goodnightapp.com
+  description: Production server
+components: {}
