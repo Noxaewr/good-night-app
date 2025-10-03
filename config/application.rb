@@ -21,7 +21,8 @@ module GoodNightApp
     # These settings can be overridden in specific environments using the files
     # in config/environments, which are processed later.
     #
-    # config.time_zone = "Central Time (US & Canada)"
+    # Configure application time zone to match expected local times in specs
+    config.time_zone = "Asia/Bangkok"
     # config.eager_load_paths << Rails.root.join("extras")
 
     # Only loads a smaller set of middleware suitable for API only apps.
