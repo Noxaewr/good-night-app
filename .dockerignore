@@ -1,0 +1,59 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# CI/CD
+.github
+
+# Documentation
+README.md
+*.md
+
+# Logs
+log/*
+*.log
+
+# Temporary files
+tmp/*
+storage/*
+
+# Test files
+spec/*
+test/*
+coverage/*
+
+# Development files
+.env.development
+.env.test
+
+# Node modules (if any)
+node_modules
+
+# Bundler
+.bundle
+vendor/bundle
+
+# IDE files
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Database files
+*.sqlite3
+*.sqlite3-journal
+
+# Credentials (keep encrypted credentials)
+config/credentials/*.key
+!config/master.key
+
+# Docker files
+Dockerfile*
+docker-compose*.yml
+.dockerignore
